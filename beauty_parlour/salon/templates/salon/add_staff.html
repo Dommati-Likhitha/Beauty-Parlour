@@ -1,0 +1,12 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<section class="staff-form-section">
+    <h2>Add Staff Member</h2>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Create Staff</button>
+    </form>
+</section>
+{% endblock %}

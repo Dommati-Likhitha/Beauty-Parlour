@@ -1,0 +1,37 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<section class="admin-dashboard">
+    <h2>Admin Dashboard</h2>
+    <p><a href="{% url 'service_list_admin' %}" class="btn">Manage Services</a></p>
+    <p><a href="{% url 'add_staff' %}" class="btn">Add Staff</a></p>
+    <table class="bookings-table">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.customer.username }}</td>
+                    <td>{{ booking.service.name }}</td>
+                    <td>{{ booking.date }}</td>
+                    <td>{{ booking.time }}</td>
+                    <td>{{ booking.get_status_display }}</td>
+                    <td>{{ booking.created_at }}</td>
+                    <td><a href="{% url 'change_booking_status' booking.id %}" class="btn small">Change</a></td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="7">No bookings yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

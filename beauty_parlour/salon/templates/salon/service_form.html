@@ -1,0 +1,12 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<section class="service-form">
+    <h2>{{ title }}</h2>
+    <form method="post" enctype="multipart/form-data" class="booking-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Save</button>
+    </form>
+</section>
+{% endblock %}

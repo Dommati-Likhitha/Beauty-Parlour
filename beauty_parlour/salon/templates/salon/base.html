@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Bloom Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'salon/css/style.css' %}">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="logo">Beauty Bloom Hub</a>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'services' %}">Services</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'book' %}">Book</a></li>
+                <li><a href="{% url 'booking_history' %}">My Bookings</a></li>
+                <li>
+                    <form method="post" action="{% url 'logout' %}" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn logout-btn">Logout</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            {% endif %}
+            {% if user.is_staff %}
+                <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+            {% endif %}
+        </ul>
+        <div class="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </nav>
+</header>
+<main>
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2026 Beauty Bloom Hub. All rights reserved.</p>
+        <p>Contact: +1 234 567 890 | info@beautybloomhub.com</p>
+    </div>
+</footer>
+<script>
+// burger menu
+const burger = document.querySelector('.burger');
+const navLinks = document.querySelector('.nav-links');
+burger && burger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+});
+// smooth scroll for anchors
+const scrollLinks = document.querySelectorAll('a[href^="#"]');
+scrollLinks.forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) target.scrollIntoView({behavior:'smooth'});
+    });
+});
+
+// scroll reveal for testimonials
+const testimonials = document.querySelectorAll('.testimonial');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, {threshold: 0.3});
+testimonials.forEach(t => observer.observe(t));
+</script>
+</body>
+</html>

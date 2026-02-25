@@ -1,0 +1,12 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<section class="login-section">
+    <h2>Login</h2>
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Login</button>
+    </form>
+</section>
+{% endblock %}

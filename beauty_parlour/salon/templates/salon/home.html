@@ -1,0 +1,134 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<!-- premium hero with right-side image and left gradient for text -->
+<section class="hero reveal">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>Beauty Bloom Hub</h1>
+            <hr class="hero-divider" />
+            <h2 class="tagline">Your Ultimate Beauty Destination</h2>
+            <p class="description">Experience luxurious treatments, personalized care, and modern beauty solutions designed to enhance your natural glow.</p>
+            <a href="{% url 'services' %}" class="btn btn-beauty cta">Book Appointment</a>
+        </div>
+    </div>
+</section>
+
+<section class="intro-section reveal">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>At Beauty Bloom Hub, elegance meets expertise. Our mission is to nurture your inner glow through bespoke services, premium products, and a serene atmosphere. Experience transformative skincare, precision styling, and holistic wellness rituals—all tailored just for you.</p>
+    </div>
+</section>
+
+<section class="features-section reveal">
+    <div class="container">
+        <h2>Why Choose Beauty Bloom Hub</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-award fa-2x"></i>
+                <h3>Expert Stylists</h3>
+                <p>Certified professionals with years of experience.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-seedling fa-2x"></i>
+                <h3>Premium Products</h3>
+                <p>Only top-brand, skin-friendly products used.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-leaf fa-2x"></i>
+                <h3>Relaxing Ambience</h3>
+                <p>Peaceful environment to rejuvenate your senses.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-hand-holding-heart fa-2x"></i>
+                <h3>Personalized Care</h3>
+                <p>Services tailored to your unique needs.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="prp-therapy reveal">
+    <div class="container">
+        <h2>Featured Treatment: PRP Therapy</h2>
+        <div class="prp-card">
+            <img src="/static/salon/images/prp1.jpg" alt="PRP Treatment Image">
+            <div class="prp-info">
+                <p>Platelet‑Rich Plasma (PRP) therapy harnesses your body’s natural healing powers to refresh the skin, promote hair restoration, and diminish scars. A gentle, all‑natural option for clients seeking radiant transformation.</p>
+                <a href="{% url 'services' %}" class="btn btn-beauty">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="testimonials-section">
+    <h2>What Our Clients Say</h2>
+    <div class="testimonials-carousel">
+        <div class="testimonial active">
+            <p>"Absolutely loved my facial! My skin has never felt smoother. The staff at Beauty Bloom Hub are true professionals."</p>
+            <span>- Priya K.</span>
+        </div>
+        <div class="testimonial">
+            <p>"The ambiance here is so calming, and the mani-pedi was flawless. I’ll be coming back every month!"</p>
+            <span>- Aisha R.</span>
+        </div>
+        <div class="testimonial">
+            <p>"Booked a bridal package and the makeup artist made me look stunning on my big day. Highly recommend!"</p>
+            <span>- Neha S.</span>
+        </div>
+    </div>
+</section>
+
+<script>
+// simple carousel for testimonials
+(function() {
+    const items = document.querySelectorAll('.testimonials-carousel .testimonial');
+    let current = 0;
+    if (items.length === 0) return;
+    function show(index) {
+        items.forEach((el, i) => {
+            el.classList.toggle('active', i === index);
+        });
+    }
+    setInterval(() => {
+        current = (current + 1) % items.length;
+        show(current);
+    }, 4000);
+})();
+</script>
+
+<!-- scroll-reveal for sections -->
+<script>
+(function(){
+    const sections = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+            if(e.isIntersecting) e.target.classList.add('visible');
+        });
+    }, {threshold:0.2});
+    sections.forEach(s=>obs.observe(s));
+})();
+</script>
+
+<section class="gallery-section">
+    <h2>Gallery</h2>
+    <div class="cards-container">
+        <!-- Placeholder images - replace with real ones in static files -->
+        <div class="img-card"><img src="/static/salon/images/gallery1.jpg" alt="Gallery 1"></div>
+        <div class="img-card"><img src="/static/salon/images/gallery2.jpg" alt="Gallery 2"></div>
+        <div class="img-card"><img src="/static/salon/images/gallery3.jpg" alt="Gallery 3"></div>
+        <div class="img-card"><img src="/static/salon/images/prp1.jpg" alt="PRP Image"></div>
+        <div class="img-card"><img src="/static/salon/images/prp2.jpg" alt="PRP Image"></div>
+    </div>
+</section>
+
+<section class="contact-section reveal">
+    <h2>Contact Us</h2>
+    <p><i class="fas fa-phone"></i> Phone: +1 234 567 890</p>
+    <p><i class="fas fa-envelope"></i> Email: info@beautybloomhub.com</p>
+    <p><i class="fas fa-map-marker-alt"></i> Address: 1234 Beauty Ave, City, Country</p>
+    <p><i class="fab fa-instagram"></i> Follow us on Instagram <a href="#" target="_blank">@BeautyBloomHub</a> for latest offers and updates.</p>
+</section>
+{% endblock %}
