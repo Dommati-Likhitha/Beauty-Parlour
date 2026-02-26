@@ -24,6 +24,13 @@
                         {% if booking.status != 'cancelled' and booking.status != 'completed' %}
                             <a href="{% url 'cancel_booking' booking.id %}" class="btn small">Cancel</a>
                         {% endif %}
+                        {% if booking.status == 'completed' %}
+                            {% if booking.feedback %}
+                                <span class="feedback-note">&#9733; {{ booking.feedback.rating }} - feedback submitted</span>
+                            {% else %}
+                                <a href="{% url 'leave_feedback' booking.id %}" class="btn small">Leave Feedback</a>
+                            {% endif %}
+                        {% endif %}
                     </td>
                 </tr>
             {% empty %}

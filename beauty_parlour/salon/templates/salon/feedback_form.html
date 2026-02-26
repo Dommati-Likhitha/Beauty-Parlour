@@ -1,0 +1,13 @@
+{% extends 'salon/base.html' %}
+
+{% block content %}
+<section class="feedback-section">
+    <h2>Leave Feedback for {{ booking.service.name }}</h2>
+    <p>Date: {{ booking.date }} at {{ booking.time }}</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-beauty">Submit Feedback</button>
+    </form>
+</section>
+{% endblock %}

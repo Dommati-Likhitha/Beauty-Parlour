@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Service, Booking
-from .forms import SignUpForm, BookingForm, ServiceForm
+from .models import Service, Booking, Feedback
+from .forms import SignUpForm, BookingForm, ServiceForm, FeedbackForm
 
 
 def home(request):
@@ -68,17 +68,43 @@ def admin_dashboard(request):
     bookings = Booking.objects.all().order_by('-created_at')
     services = Service.objects.all()
     staff = []  # staff could be retrieved via Staff model if desired
+    feedbacks = Feedback.objects.select_related('booking', 'booking__customer', 'booking__service').order_by('-created_at')
     return render(request, 'salon/admin_dashboard.html', {
         'bookings': bookings,
         'services': services,
         'staff': staff,
+        'feedbacks': feedbacks,
     })
 
 
 @login_required
 def booking_history(request):
-    bookings = Booking.objects.filter(customer=request.user).order_by('-created_at')
+    # retrieve bookings and prefetch feedback to avoid extra queries
+    bookings = Booking.objects.filter(customer=request.user).order_by('-created_at').select_related('feedback')
     return render(request, 'salon/booking_history.html', {'bookings': bookings})
+
+
+@login_required
+def leave_feedback(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, customer=request.user)
+    if booking.status != 'completed':
+        messages.error(request, "You can only leave feedback for completed bookings.")
+        return redirect('booking_history')
+    # one-to-one relation ensures attribute access
+    if hasattr(booking, 'feedback'):
+        messages.info(request, "Feedback already submitted for this booking.")
+        return redirect('booking_history')
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            feedback = form.save(commit=False)
+            feedback.booking = booking
+            feedback.save()
+            messages.success(request, "Thank you for your feedback!")
+            return redirect('booking_history')
+    else:
+        form = FeedbackForm()
+    return render(request, 'salon/feedback_form.html', {'form': form, 'booking': booking})
 
 
 @login_required

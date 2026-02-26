@@ -10,6 +10,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('booking-history/', views.booking_history, name='booking_history'),
     path('cancel/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
+    path('feedback/<int:booking_id>/', views.leave_feedback, name='leave_feedback'),
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('change-status/<int:booking_id>/', views.change_booking_status, name='change_booking_status'),
     # custom admin-dashboard URLs use a different prefix to avoid clashing with Django's own /admin/ patterns

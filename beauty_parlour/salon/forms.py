@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Booking, Service
+from .models import Booking, Service, Feedback
 
 
 class SignUpForm(UserCreationForm):
@@ -30,4 +30,14 @@ class ServiceForm(forms.ModelForm):
     
     # use clearable file input widget if you want nicer display
     image = forms.ImageField(required=False, widget=forms.ClearableFileInput)
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['rating', 'comments']
+        widgets = {
+            'rating': forms.RadioSelect(),
+            'comments': forms.Textarea(attrs={'rows': 4}),
+        }
 

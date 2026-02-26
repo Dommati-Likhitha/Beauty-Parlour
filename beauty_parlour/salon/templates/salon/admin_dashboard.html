@@ -33,5 +33,29 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {% if feedbacks %}
+    <h3>Customer Feedback</h3>
+    <table class="bookings-table">
+        <thead>
+            <tr>
+                <th>Booking</th>
+                <th>Rating</th>
+                <th>Comments</th>
+                <th>Submitted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fb in feedbacks %}
+            <tr>
+                <td>{{ fb.booking.customer.username }} - {{ fb.booking.service.name }}</td>
+                <td>{{ fb.rating }} / 5</td>
+                <td>{{ fb.comments|default:'-' }}</td>
+                <td>{{ fb.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 </section>
 {% endblock %}

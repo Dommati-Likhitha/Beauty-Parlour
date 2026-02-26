@@ -160,21 +160,22 @@ a {
     overflow: hidden;
 }
 .hero-content {
-    flex: 1 1 50%;
+    flex: 1 1 100%;
     min-width: 320px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 60px;
-    background: var(--bg-color);
+    /* transparent background with hero image */
+    background: transparent url('/static/salon/images/hero.jpg') no-repeat center/cover;
 }
 .hero-content::before {
     content: '';
     position: absolute;
     inset: 0;
-    /* pale gradient to soften left side without darkening the image */
-    background: linear-gradient(to right, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 60%);
+    /* gradient overlay for readability on image */
+    background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 60%);
     z-index: 1;
 }
 .hero-text {
@@ -182,7 +183,7 @@ a {
     z-index: 2;
     text-align: left;
     max-width: 600px;
-    color: #222;
+    color: #fff; /* white text on darkened overlay */
     opacity: 0;
     animation: fadeIn 1.2s ease forwards;
 }
@@ -233,17 +234,6 @@ a {
 @keyframes fadeIn {
     to {opacity: 1;}
 }
-.hero-image {
-    flex: 1 1 50%;
-    min-width: 320px;
-    background: url('/static/salon/images/hero.jpg') no-repeat right center/cover;
-    opacity: 0;
-    animation: imageSlide 1.5s ease forwards;
-    filter: brightness(0.93) contrast(1.1);
-}
-@keyframes imageSlide {
-    to {opacity:1;}
-}
 /* decorative scroll indicator */
 .hero::after {
     content: '\2193';
@@ -276,6 +266,31 @@ a {
     .hero-text .tagline { font-size: 1.5rem; }
     .hero-text .description { font-size: 1.05rem; }
     .hero::after { display: none; }
+}
+
+/* feedback indicators */
+.feedback-note {
+    font-size: 0.9rem;
+    color: var(--secondary-accent);
+    margin-left: 8px;
+}
+
+.feedback-section {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-radius: 8px;
+}
+.feedback-section h2 {
+    margin-bottom: 20px;
+}
+.feedback-section form p {
+    margin-bottom: 15px;
+}
+.feedback-section textarea {
+    width: 100%;
 }
 
 /* Cards */
